@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <string.h>
+struct Ticket {
+    char name[50];
+    int from;
+    int to;
+    int fare;
+};
+
+
+void viewStations() {
+    printf("\n--- Metro Stations ---\n");
+    printf("1. Station A\n");
+    printf("2. Station B\n");
+    printf("3. Station C\n");
+    printf("4. Station D\n");
+    printf("5. Station E\n");
+}
+
+
+int calculateFare(int from, int to) {
+    int distance = from - to;
+    if (distance < 0)
+        distance = -distance;
+
+    return distance * 10; 
+}
+
+
+void bookTicket(struct Ticket *t) {
+    printf("\nEnter your name: ");
+    scanf("%s", t->name);
+
+    viewStations();
+
+    printf("\nEnter source station number: ");
+    scanf("%d", &t->from);
+
+    printf("Enter destination station number: ");
+    scanf("%d", &t->to);
+
+    t->fare = calculateFare(t->from, t->to);
+
+    printf("\nTicket Booked Successfully!\n");
+}
+
+
+void showTicket(struct Ticket t) {
+    if (t.fare == 0) {
+        printf("\nNo ticket booked yet!\n");
+        return;
+    }
+
+    printf("\n--- Ticket Details ---\n");
+    printf("Name: %s\n", t.name);
+    printf("From Station: %d\n", t.from);
+    printf("To Station: %d\n", t.to);
+    printf("Total Fare: ₹%d\n", t.fare);
+}
+
+
+int main() {
+    int choice;
+    struct Ticket t;
+    t.fare = 0; 
+
+    while (1) {
+        printf("\n===== Metro Booking System =====\n");
+        printf("1. View Stations\n");
+        printf("2. Book Ticket\n");
+        printf("3. Show Ticket Details\n");
+        printf("4. Calculate Fare\n");
+        printf("5. Exit\n");
+
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                viewStations();
+                break;
+
+            case 2:
+                bookTicket(&t);
+                break;
+
+            case 3:
+                showTicket(t);
+                break;
+
+            case 4:
+                if (t.from == 0 && t.to == 0) {
+                    printf("\nBook ticket first!\n");
+                } else {
+                    printf("\nFare: ₹%d\n", calculateFare(t.from, t.to));
+                }
+                break;
+
+            case 5:
+                printf("\nThank you for using Metro System!\n");
+                return 0;
+
+            default:
+                printf("\nInvalid choice!\n");
+        }
+    }
+}
