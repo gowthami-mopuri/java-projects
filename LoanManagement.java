@@ -1,15 +1,12 @@
 import java.util.*;
 import java.io.*;
-
-// Loan Class
 class Loan {
     int loanId;
     String name;
     double amount;
     double interestRate;
     int tenure; // in months
-    String status; // Approved / Rejected / Pending
-
+    String status; 
     Loan(int loanId, String name, double amount, double interestRate, int tenure) {
         this.loanId = loanId;
         this.name = name;
@@ -18,14 +15,11 @@ class Loan {
         this.tenure = tenure;
         this.status = "Pending";
     }
-
-    // EMI Calculation
     double calculateEMI() {
         double r = interestRate / (12 * 100);
         double emi = (amount * r * Math.pow(1 + r, tenure)) / (Math.pow(1 + r, tenure) - 1);
         return emi;
     }
-
     void display() {
         System.out.println("Loan ID: " + loanId);
         System.out.println("Name: " + name);
@@ -37,19 +31,12 @@ class Loan {
         System.out.println("----------------------");
     }
 }
-
-// Main Class
 public class LoanManagement {
-
     static ArrayList<Loan> loans = new ArrayList<>();
-
-    // Apply Loan
     static void applyLoan(int id, String name, double amount, double rate, int tenure) {
         loans.add(new Loan(id, name, amount, rate, tenure));
         System.out.println("Loan applied successfully!");
     }
-
-    // Approve / Reject Loan
     static void updateStatus(int id, String status) {
         for (Loan l : loans) {
             if (l.loanId == id) {
@@ -60,15 +47,11 @@ public class LoanManagement {
         }
         System.out.println("Loan not found!");
     }
-
-    // View Loans
     static void viewLoans() {
         for (Loan l : loans) {
             l.display();
         }
     }
-
-    // Track Repayment
     static void trackRepayment(int id, int monthsPaid) {
         for (Loan l : loans) {
             if (l.loanId == id) {
@@ -83,8 +66,6 @@ public class LoanManagement {
         }
         System.out.println("Loan not found!");
     }
-
-    // Save to File
     static void saveToFile() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("loans.txt"));
@@ -99,11 +80,8 @@ public class LoanManagement {
             System.out.println("Error saving file!");
         }
     }
-
-    // Main Method
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
         while (true) {
             System.out.println("\n--- Loan Management ---");
             System.out.println("1. Apply Loan");
@@ -113,9 +91,7 @@ public class LoanManagement {
             System.out.println("5. Track Repayment");
             System.out.println("6. Save Data");
             System.out.println("7. Exit");
-
             int choice = sc.nextInt();
-
             switch (choice) {
                 case 1:
                     System.out.print("Enter ID: ");
@@ -129,24 +105,19 @@ public class LoanManagement {
                     double rate = sc.nextDouble();
                     System.out.print("Enter Tenure (months): ");
                     int tenure = sc.nextInt();
-
                     applyLoan(id, name, amt, rate, tenure);
                     break;
-
                 case 2:
                     System.out.print("Enter Loan ID: ");
                     updateStatus(sc.nextInt(), "Approved");
                     break;
-
                 case 3:
                     System.out.print("Enter Loan ID: ");
                     updateStatus(sc.nextInt(), "Rejected");
                     break;
-
                 case 4:
                     viewLoans();
                     break;
-
                 case 5:
                     System.out.print("Enter Loan ID: ");
                     int lid = sc.nextInt();
@@ -154,15 +125,12 @@ public class LoanManagement {
                     int months = sc.nextInt();
                     trackRepayment(lid, months);
                     break;
-
                 case 6:
                     saveToFile();
                     break;
-
                 case 7:
                     System.out.println("Exiting...");
                     return;
-
                 default:
                     System.out.println("Invalid choice!");
             }
